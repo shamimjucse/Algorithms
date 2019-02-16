@@ -19,12 +19,6 @@ using namespace __gnu_pbds;
 #define  WRITE  freopen("C:\\Users\\shami\\Desktop\\output.txt","w",stdout)
 #define  _IO    ios_base::sync_with_stdio(0); cin.tie(0);cout.tie(0);
 
-#define MX      200000000000LL
-#define mod     1000000007LL
-#define eps     0.000000001
-#define inf     999999999999999LL
-#define pi      2*acos(0.00)
-
 #define D       double
 #define ld      long double
 #define ll      long long int
@@ -49,6 +43,7 @@ using namespace __gnu_pbds;
 #define cn2(a,b)      cin >> a >> b
 #define cn3(a,b,c)    cin >> a >> b >> c
 
+#define endl          "\n"
 #define nl            cout << endl
 #define co(s)         cout << s
 #define co1(a)        cout << a
@@ -110,6 +105,14 @@ ll q8[]= {0,0,1,-1,1,1,-1,-1};
 ll dr[]= {2, 2, -2, -2, 1, -1, 1, -1};
 ll dc[]= {1,-1,  1, -1, 2,  2,-2, -2};
 
+///Declaration
+#define mod     1000000007LL
+#define eps     0.000000001
+#define inf     9999999999999999LL
+#define pi      acos(-1.00)
+const ll INF = (1LL<<63)-1LL;
+const D PI = 3.14159265358979323846;
+
 /////bit
 //ll bit[1000005],_n,_len;
 //void update(ll i, ll val)  {while(i<=_n){bit[i]+=val;i+=(i&(-i));}}
@@ -119,12 +122,12 @@ ll dc[]= {1,-1,  1, -1, 2,  2,-2, -2};
 /////geometri_basic
 //struct Point{double x,y;};
 //struct StateLine{double x,y,c;};
-//StateLine line(Point A, Point B)    {StateLine L;L.x=A.y-B.y;L.y=B.x-A.x;L.c=A.x*B.y-B.x*A.y;return L;}
-//StateLine lombo_line(Point A, Point B)
-//{Point M;M.x=(A.x+B.x)/2.00;M.y=(A.y+B.y)/2.00;StateLine L;L.x=A.x-B.x;L.y=A.y-B.y;L.c=M.x*B.x-M.x*A.x+M.y*B.y-M.y*A.y;return L;}
-//Point cordinate(StateLine A, StateLine B)
-//{Point P;P.x=(A.y*B.c-B.y*A.c)/(A.x*B.y-B.x*A.y);P.y=(B.x*A.c-A.x*B.c)/(A.x*B.y-B.x*A.y);return P;}
-//double Distance(Point A, Point B)   {return sqrt((A.x-B.x)*(A.x-B.x)+(A.y-B.y)*(A.y-B.y));}
+//StateLine line(Point A, Point B){StateLine L;L.x=B.y-A.y;L.y=A.x-B.x;L.c=L.x*A.x+L.y*A.y;return L;}
+//StateLine lombo_line(Point A, Point B){Point M;M.x=(A.x+B.x)/2.00;M.y=(A.y+B.y)/2.00;StateLine L;
+//    L.x=A.x-B.x;L.y=A.y-B.y;L.c=M.x*B.x-M.x*A.x+M.y*B.y-M.y*A.y;return L;}
+//Point line_intersect(StateLine A, StateLine B)
+//{Point P;double d=(A.x*B.y-B.x*A.y);if(d==0){/*parallel;*/}P.x=(B.y*A.c-A.y*B.c)/d;P.y=(A.x*B.c-B.x*A.c)/d;return P;}
+//double Distance(Point A, Point B){return sqrt((A.x-B.x)*(A.x-B.x)+(A.y-B.y)*(A.y-B.y));}
 
 /////Ordered Set
 //typedef tree<ll,null_type,less<ll>,rb_tree_tag,tree_order_statistics_node_update>order_set;
@@ -136,14 +139,16 @@ ll dc[]= {1,-1,  1, -1, 2,  2,-2, -2};
 /////gcd/bigmod
 //ll gcd(ll a, ll b)              {if(b>a)gcd(b,a);return ((b==0)?a:gcd(b,a%b));}
 //ll lcm(ll a, ll b)              {ll p=(a*b)/(gcd(a,b));return p;}
-//ll BigMod(ll a,ll b,ll m)       {if(!b)return 1;ll ans = BigMod(a, b/2, m);ans = (ans*ans)%m;if(b&1) ans = (ans*a)%m;return ans;}
+//ll BigMod(ll a,ll b,ll m)         {ll ans=1;a=a%m;while(!b){if(b&1)ans=(ans*a)%m;a=(a*a)%m;b/=2;}return ans;}
 //ll Mod_inv(ll a, ll m)          {return BigMod(a,m-2,m);}
 //ll sum(ll a, ll b, ll m)        {return a>=m-b?a-(m-b):a+b;}
 //ll multiply(ll a, ll b, ll m)   {ll ans=0;if(b>a)swap(a,b);while(b){if(b&1)ans=sum(ans,a,m);b>>=1;a=sum(a,a,m);}return ans;}
 
 /*-----------------------------*/
 
-//ll a[1000005],b[1000005];
+#define MX 1000005
+
+//ll a[MX],b[MX];
 //vector<ll>v,v1,v2;
 //map<ll,ll>mp;
 //priority_queue<ll>pq;
@@ -156,12 +161,12 @@ int main()
     //while(cin >> n)
     cin >> tc;
     while(tc--)
-	{
+    {
 //		cin >> n;
 //		for(i=0;i<n;i++)
 //		{
 //			cin >> a[i];
 //		}
-	}
+    }
     return 0;
 }
