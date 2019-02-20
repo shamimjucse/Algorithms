@@ -139,7 +139,7 @@ const D PI = 3.14159265358979323846;
 /////gcd/bigmod
 //ll gcd(ll a, ll b)              {if(b>a)gcd(b,a);return ((b==0)?a:gcd(b,a%b));}
 //ll lcm(ll a, ll b)              {ll p=(a*b)/(gcd(a,b));return p;}
-//ll BigMod(ll a,ll b,ll m)         {ll ans=1;a=a%m;while(!b){if(b&1)ans=(ans*a)%m;a=(a*a)%m;b/=2;}return ans;}
+//ll BigMod(ll a,ll b,ll m)       {ll ans=1;a=a%m;while(b){if(b&1)ans=(ans*a)%m;a=(a*a)%m;b/=2;}return ans;}
 //ll Mod_inv(ll a, ll m)          {return BigMod(a,m-2,m);}
 //ll sum(ll a, ll b, ll m)        {return a>=m-b?a-(m-b):a+b;}
 //ll multiply(ll a, ll b, ll m)   {ll ans=0;if(b>a)swap(a,b);while(b){if(b&1)ans=sum(ans,a,m);b>>=1;a=sum(a,a,m);}return ans;}
