@@ -83,7 +83,7 @@ using namespace __gnu_pbds;
 #define wu1(a)      while(scanf("%llu",&a)==1)
 #define wu2(a,b)    while(scanf("%llu%llu",&a,&b)==2)
 #define wd1(a)      while(scanf("%lf",&a)==1)
-#define wd1(a)      while(scanf("%lf%lf",&a,&b)==2)
+#define wd2(a,b)      while(scanf("%lf%lf",&a,&b)==2)
 
 #define mem0(a)     memset(a,0,sizeof a)
 #define mem1(a)     memset(a,-1,sizeof a)
@@ -110,7 +110,7 @@ ll dc[]= {1,-1,  1, -1, 2,  2,-2, -2};
 #define eps     0.000000001
 #define inf     9999999999999999LL
 #define pi      acos(-1.00)
-const ll INF = (1LL<<63)-1LL;
+const ll INF = LONG_MAX;
 const D PI = 3.14159265358979323846;
 
 /////bit
