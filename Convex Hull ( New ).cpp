@@ -16,9 +16,9 @@ ll cvx_no;
 ll Triangle_area(Point A, Point B, Point C)
 {
     double p=A.x*(B.y-C.y)+B.x*(C.y-A.y)+C.x*(A.y-B.y);
-    if(p==0)return 0;
-    else if(p>0) return 1;
-    else return -1;
+    if(p==0)return 0; ///Point is on line
+    else if(p>0) return 1; ///Point is left side
+    else return -1; ///Point is right side
 }
 double Distance(Point A, Point B)
 {
