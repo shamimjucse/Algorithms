@@ -144,3 +144,8 @@ int main()
     cout << sm << endl;
     return 0;
 }
+
+/*
+Polynomial Exponentiation :  First convert the polynomial into point-value space (fft) .
+Calculate exponent of every individual element , then convert back to the sample space (inverse fft).
+*/
