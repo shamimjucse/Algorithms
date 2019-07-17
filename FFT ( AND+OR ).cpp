@@ -79,7 +79,8 @@ vector<ll> multiply(vector<ll> a,vector<ll> b)
     FFT_AND(a,false), FFT_AND(b,false);
     for(size_t i=0; i<n; i++)
         a[i]*=b[i], a[i]%=mod;
-    FFT_OR(a,true);
+    ///FFT_OR(a,true);
+    FFT_AND(a,true);
     for(size_t i=0; i<n; i++)
     {
         if(a[i]<0)
