@@ -42,24 +42,7 @@ void FFT_AND(vector<ll>&P, bool inv)
         }
     }
 }
-vector<ll> Mul_AND(vector<ll> a,vector<ll> b)
-{
-    size_t n = 1;
-    while(n < max(a.size(),b.size()))
-        n <<= 1;
-    n <<= 1;
-    a.resize(n), b.resize(n);
-    FFT_AND(a,false), FFT_AND(b,false);
-    for(size_t i=0; i<n; i++)
-        a[i]*=b[i], a[i]%=mod;
-    FFT_AND(a,true);
-    for(size_t i=0; i<n; i++)
-    {
-        if(a[i]<0)
-            a[i]+=mod;
-    }
-    return a;
-}
+
 void FFT_OR(vector<ll> &P, bool inv)
 {
     int n=(int)P.size();
@@ -85,14 +68,15 @@ void FFT_OR(vector<ll> &P, bool inv)
         }
     }
 }
-vector<ll> Mul_OR(vector<ll> a,vector<ll> b)
+vector<ll> multiply(vector<ll> a,vector<ll> b)
 {
     size_t n = 1;
     while(n < max(a.size(), b.size()))
         n <<= 1;
     n <<= 1;
     a.resize(n), b.resize(n);
-    FFT_OR(a,false), FFT_OR(b,false);
+    ///FFT_OR(a,false), FFT_OR(b,false);
+    FFT_AND(a,false), FFT_AND(b,false);
     for(size_t i=0; i<n; i++)
         a[i]*=b[i], a[i]%=mod;
     FFT_OR(a,true);
