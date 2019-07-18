@@ -17,6 +17,15 @@ template<class T> T egcd(T a, T b, T &x, T &y)///return ax+by=gcd(a,b)
     y = x1-(a/b)*y1;
     return g;
 }
+template<class T> bool solution(T a, T b, T c, T &x, T &y, T &g)/// any solution for ax+by=c
+{
+    g = egcd(abs(a),abs(b),x,y);
+    if(c%g!=0)return false;
+    x*=c/g, y*=c/g;
+    if(a<0)x = -x;
+    if(b<0)y = -y;
+    return true;
+}
 int main()
 {
     ll a,b,x,y,g;
