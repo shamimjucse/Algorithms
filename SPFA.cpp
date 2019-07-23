@@ -29,6 +29,7 @@ ll SPFA(ll st, ll ed)
                 if(!vis[v])
                 {
                     qu.push(v);
+                    vis[v] = 1;
                 }
             }
         }
