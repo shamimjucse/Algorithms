@@ -13,6 +13,27 @@ template<class T> T egcd(T a, T b, T &x, T &y)///return ax+by=gcd(a,b)
     return g;
 }
 ///Chinese remainder theorem:
+template<class T> inline T crt(vector<T>M, vector<T>A) ///gcd(mo[i],mo[j]) = 1, for any (i,j) such i!=j
+{
+    /**return x,L such that x%M[i]=A[i] and L is such number where x is unique*/
+    int sz = (int)A.size();
+    ll n = 1;
+    for(auto p : M)
+        n*=p;
+    ll res = 0;
+    for(int i = 0; i<sz; i++)
+    {
+        long long m_i= n/M[i];
+        long long m_inv, ing;
+        egcd(m_i,M[i]*1LL,m_inv,ing);
+        if(m_inv < 0)
+            m_inv += M[i];
+        res = (res + ((m_i * m_inv) % n) * A[i])%n; //be very careful with overflow
+    }
+    return res;
+}
+
+///General Version:
 /** Works for non-coprime moduli.Returns -1 if solution does not exist or input
  is invalid.Otherwise, returns x, where x is the solution unique to mod L */
 
