@@ -70,35 +70,40 @@ ll ncr(ll n,ll r,int p) //p is prime [small/iterable ]
 }
 /******************************/
 ///Non-prime constant moduli:
-ll k[20][MX];
-ll f[MX];
-const ll moduli = 521254688;
+#include<bits/stdc++.h>
+#define ll long long
+#define mx 10000
+using namespace std;
+ll k[20][mx+2];
+ll f[mx+2];
+const ll mod = 142857;//Non prime number
+//const ll moduli = 521254688;
 int phi;
 vector<int> prime;
-void pre(int N) //N is largest input
+void precall(int N=mx) //N is largest input
 {
-    int n=moduli;
-    phi=moduli;
+    int n=mod;
+    phi=mod;
     for(int i=2; i*i<=n; i++)
     {
         if(n%i==0)
         {
             while(n%i==0)
                 n/=i;
-            prime.pb(i);
+            prime.push_back(i);
             phi-=phi/i;
         }
     }
     if(n>1)
     {
         phi-=phi/n;
-        prime.pb(n);
+        prime.push_back(n);
     }
     f[0]=1;
     for(int j=1; j<=N; j++)
     {
         int n=j;
-        for(int i=0; i<SZ(prime); i++)
+        for(int i=0; i<prime.size(); i++)
         {
             k[i][j]=k[i][j-1];
             while(n%prime[i]==0)
@@ -107,19 +112,41 @@ void pre(int N) //N is largest input
                 n/=prime[i];
             }
         }
-        f[j]=(f[j-1]*n)%moduli;
+        f[j]=(f[j-1]*n)%mod;
     }
 }
-int ncr(int n,int r)
+ll power(ll a,ll b,ll m)//m means mod value
 {
-    ll ans = f[n]*pow( (f[r]*f[n-r])%moduli,phi-1,moduli) %moduli;
-    for(int i=0; i<SZ(prime); i++)
+    ll ans=1;
+    a=a%m;
+    while(b)
     {
-        ans*=pow(prime[i],k[i][n]-k[i][r]-k[i][n-r],moduli);
-        ans%=moduli;
+        if(b&1)
+            ans=(ans*a)%m;
+        a=(a*a)%m;
+        b/=2;
     }
     return ans;
 }
+int ncr(int n,int r)
+{
+    ll ans = f[n]*power( (f[r]*f[n-r])%mod,phi-1,mod) %mod;
+    for(int i=0; i<prime.size(); i++)
+    {
+        ans*=power(prime[i],k[i][n]-k[i][r]-k[i][n-r],mod);
+        ans%=mod;
+    }
+    return ans;
+}
+int main()
+{
+    precall();
+    int p,q;
+    cin >> p >> q;
+    cout << ncr(p,q) << endl;
+    return 0;
+}
+
 /******************************************* 20/15 NCR Table **************************************************/
 
      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0      0
