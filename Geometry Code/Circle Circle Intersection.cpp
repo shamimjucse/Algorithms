@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define eps 1e-9
 using namespace std;
 #define xx first
 #define yy second
@@ -8,12 +7,20 @@ double dis(point p,point q)
 {
     return sqrt((p.xx-q.xx)*(p.xx-q.xx)+(p.yy-q.yy)*(p.yy-q.yy));
 }
-
+double twoCricleIntersectionArea(double r,double R,double d)//d is the distance between two center
+{
+    if(R < r)swap(R,r);
+    if(d>R+r)return 0;//Outside
+    if(d + r <= R)return acos(-1.0)*r*r;//inside
+    return 	r*r*acos((d*d + r*r - R*R)/(2*d*r))+
+            R*R*acos((d*d + R*R - r*r)/(2*d*R))+
+            0.5*sqrt((-d+r+R)*(d+r-R)*(d-r+R)*(d+r+R));
+}
 pair<point,point> circleCircleIntersectionPoint(point p, double r, point q, double s)//input 2 circle cener and redius
 {
-    if(s>r)swap(r,s),swap(p,q);
-    double m=dis(p,q);
-    if(m+eps >= r+s || m+s <= r)return { {-1,-1}, {-1,-1} };///Special case when circle did not intersect
+    if(s>r)
+        swap(r,s),swap(p,q);
+    double m=dis(p,q);///assert(m+eps < r+s and m+s > r);
     double n=(r*r-s*s+m*m)/(2.0*m);
     double h=sqrt(r*r-n*n);
     point t,u,v;
@@ -24,14 +31,4 @@ pair<point,point> circleCircleIntersectionPoint(point p, double r, point q, doub
     v.xx=t.xx-(h*(q.yy-p.yy))/m;
     v.yy=t.yy+(h*(q.xx-p.xx))/m;
     return {u,v};
-}
-int main()
-{
-    point p,q;
-    double r,s;
-    cin >> p.xx >> p.yy >> r >> q.xx >> q.yy >> s;
-    pair<point,point>pr = circleCircleIntersectionPoint(p,r,q,s);
-    cout << fixed << setprecision(2) << pr.xx.xx << " " <<pr.xx.yy << endl;
-    cout << fixed << setprecision(2) << pr.yy.xx << " " <<pr.yy.yy << endl;
-    return 0;
 }
