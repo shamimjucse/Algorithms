@@ -1,4 +1,5 @@
 /**
+ *  Author       :  Md Shamim Imtiaz
  *  Cover        :  Triangle cirle intersection , polygon circle intersection
  *  Problem Name :  Radiation from Fukushima, Light OJ - 1358, UVa 11978
  *  Algorithm    :  ALGEBRAIC sum of triangle & circle's intersection, Binary Search.
