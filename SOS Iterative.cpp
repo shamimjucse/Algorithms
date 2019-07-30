@@ -1,7 +1,7 @@
 ///Hakerearth - SPECIAL PAIRS
 #include<bits/stdc++.h>
 using namespace std;
-const int N = 21;
+const int N = 20;
 int a[100005],ans[(1<<N)+2],fr[(1<<N)+2],dp[(1<<N)+2][N+2];
 int main()
 {
