@@ -65,6 +65,11 @@ int main()
 
 ///Online update and online query
 ///everything is fine as long as you want the minimum
+
+///https://www.spoj.com/problems/GOODG/en/
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
 struct line
 {
     long long a, b;
@@ -189,5 +194,33 @@ struct cht
         it = prev(it);
         return it -> a * x + it -> b;
     }
-};
+}st;
+void ini()
+{
+    st.addline(0,0);
+}
+int main()
+{
+    ini();
+    ll n,a,d;
+    cin >> n;
+    ll ans = 0;
+    for(int i=1;i<=n;i++)
+    {
+        cin >> a >> d;
+        ans = max(0LL, st.getbest(i)*(-1));
+        ans = ans + a + d*i;
+        st.addline(d,-ans);
+    }
+    ans = max(0LL, st.getbest(n+1)*(-1));
+    cout << ans << endl;
+    return 0;
+}
+/**
+ * f(n) = f(i) + a(i) - d(i)*(n-i)
+ * f(n) = f(i) + a(i) - d(i)*n + d(i)*i
+ * -f(n) = d(i)*n - [f(i) + a(i) + d(i)*i]
+ * -f(n) is taken instant of f(n), for maximizing the ans
+ */
+
 /************************************************/
