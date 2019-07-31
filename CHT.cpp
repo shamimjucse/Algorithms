@@ -36,6 +36,7 @@ void ini(pll candi = {inf,0}, double base = -inf)
     top=0;
     stk[0]=candi;
     inter[0]=base;
+    insert({0,0}); ///inserting {0,dp[0]}
 }
 
 ll a[N],b[N];
@@ -51,8 +52,7 @@ int main()
     ll ans = 0;
     ini(); //Initial set up
     ///y = m * x + c, for insert send {m,c}
-	insert({b[0],0});///inserting {b[0],dp[0]}
-    for(int i=1;i<n;i++)
+    for(int i=0;i<n;i++)
     {
         ans = qry(a[i]); ///query on point a[i]
         insert({b[i],ans}); ///insert {b[i],dp[i]}
