@@ -2,7 +2,7 @@
 using namespace std;
 
 const int mx = 300000;
-struct Automata
+struct node
 {
     int len,link,real,next[26];
 };
