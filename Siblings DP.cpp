@@ -102,7 +102,7 @@ int call(int u, int c, int fg)
         int p = c-1;
         for(int i=0; i<=p; i++)
         {
-            ret = max(ret, cost[u] + call(nxt[u],p-i,1) + call(child[u],i,0));
+            ret = max(ret, cost[u] + call(child[u],i,0) + call(nxt[u],p-i,1));
         }
         p = c-2;
         for(int i=0; i<=p; i++)
@@ -115,7 +115,7 @@ int call(int u, int c, int fg)
         int p = c-2;
         for(int i=0; i<=p; i++)
         {
-            ret = max(ret, cost[u] + call(nxt[u],p-i,1) + call(child[u],i,1));
+            ret = max(ret, cost[u] + call(child[u],i,1) + call(nxt[u],p-i,1));
         }
     }
     return ret;
