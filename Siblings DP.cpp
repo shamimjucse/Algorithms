@@ -28,6 +28,7 @@ int dfs(int u, int p)
 int k,dp[102][102];
 int call(int u, int c)
 {
+    //if(c<0)return 100000;
     if(u==0)return 0;
     int &ret = dp[u][c];
     if(~ret)return ret;
@@ -62,3 +63,89 @@ int main()
     }
     return 0;
 }
+
+/***************************************/
+
+///https://toph.co/p/t5-racing
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>adj[102];
+int cost[102],child[102],nxt[102];
+void dfs(int u, int p)
+{
+    int pre = 0;
+    child[u] = 0;
+    for(auto v : adj[u])
+    {
+        if(v != p)
+        {
+            dfs(v,u);
+            if(!child[u])
+                child[u] = v;
+            nxt[pre] = v;
+            pre = v;
+        }
+    }
+    nxt[pre] = 0;
+}
+int k,dp[102][202][2];
+int call(int u, int c, int fg)
+{
+    if(c<0)return 0;
+    if(u==0)return 0;
+    int &ret = dp[u][c][fg];
+    if(~ret)return ret;
+
+    ret = call(nxt[u],c,fg);
+    if(fg==0)
+    {
+        int p = c-1;
+        for(int i=0; i<=p; i++)
+        {
+            ret = max(ret, cost[u] + call(nxt[u],p-i,1) + call(child[u],i,0));
+        }
+        p = c-2;
+        for(int i=0; i<=p; i++)
+        {
+            ret = max(ret, cost[u] + call(child[u],i,1) + call(nxt[u],p-i,0));
+        }
+    }
+    else
+    {
+        int p = c-2;
+        for(int i=0; i<=p; i++)
+        {
+            ret = max(ret, cost[u] + call(nxt[u],p-i,1) + call(child[u],i,1));
+        }
+    }
+    return ret;
+}
+int main()
+{
+    int tc,t=1;
+    cin >> tc;
+    while(tc--)
+    {
+        int n;
+        cin >> n >> k;
+        for(int i=1; i<=n; i++)
+        {
+            cin >> cost[i];
+            adj[i].clear();
+        }
+        for(int i=1; i<n; i++)
+        {
+            int u,v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        dfs(1,0);
+        memset(dp,-1,sizeof dp);
+        int ans = call(1,k+1,0);
+        cout << "Case " << t++ << ": " << ans << endl;
+    }
+    return 0;
+}
+
+/***************************************/
