@@ -149,3 +149,97 @@ int main()
 }
 
 /***************************************/
+
+///https://codeforces.com/problemset/problem/440/D
+#include<bits/stdc++.h>
+using namespace std;
+vector<int>adj[402],no_num[402];
+int child[402],nxt[402],num[402];
+int dfs(int u, int p)
+{
+    int pre = 0;
+    child[u] = 0;
+    for(int i=0;i<adj[u].size();i++)
+    {
+        int v = adj[u][i];
+        if(v != p)
+        {
+            dfs(v,u);
+            if(!child[u])child[u] = v;
+            nxt[pre] = v;
+            pre = v;
+            num[v] = no_num[u][i];
+        }
+    }
+    nxt[pre] = 0;
+}
+int k,dp[402][402];
+int call(int u, int c)
+{
+    if(u==0)return (c==0) ? 0 : 99999999;
+    int &ret = dp[u][c];
+    if(~ret)return ret;
+    ret = 1 + call(nxt[u],c);
+    int p = c-1;
+    for(int i=0;i<=p;i++)
+        ret = min(ret,call(child[u],i) + call(nxt[u],p-i));
+    return ret;
+}
+void print(int u, int c)
+{
+    if(u==0)return;
+    int &ret = dp[u][c];
+    if(ret == 1 + call(nxt[u],c))
+    {
+        cout << num[u] << " ";
+        print(nxt[u],c);
+        return;
+    }
+    int p = c-1;
+    for(int i=0;i<=p;i++)
+    {
+        if(ret == call(child[u],i) + call(nxt[u],p-i))
+        {
+            print(child[u],i), print(nxt[u],p-i);
+            return;
+        }
+    }
+}
+int main()
+{
+    int n;
+    cin >> n >> k;
+    for(int i=1;i<n;i++)
+    {
+        int u,v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+        no_num[u].push_back(i);
+        no_num[v].push_back(i);
+    }
+    dfs(1,0);
+    memset(dp,-1,sizeof dp);
+    int ans = call(1,k);
+    int id = 1;
+    for(int i=2;i<=n;i++)
+    {
+        if(ans > 1+call(child[i],k-1))
+        {
+            ans = 1+call(child[i],k-1);
+            id = i;
+        }
+    }
+    cout << ans << endl;
+    if(id == 1)
+    {
+        print(1,k);
+    }
+    else
+    {
+        cout << num[id] << " ";
+        print(child[id],k-1);
+    }
+    return 0;
+}
+
