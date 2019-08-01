@@ -8,7 +8,7 @@ struct node
 };
 
 int last,avl;
-Automata sa[2*mx];
+node sa[2*mx];
 inline int New()
 {
     avl++;
