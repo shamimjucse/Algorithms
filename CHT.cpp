@@ -226,7 +226,7 @@ int main()
 /************************************************/
 
 ///Online update and online query
-///everything is fine as long as you want the minimum
+///everything is fine as long as you want the minimum/maximum
 
 ///https://codeforces.com/problemset/problem/1083/E
 #include <bits/stdc++.h>
@@ -248,7 +248,7 @@ struct Line
     }
 };
 
-struct HullDynamic : public multiset<Line>   // // will maintain lower hull for minimum
+struct HullDynamic : public multiset<Line>   // // will maintain lower hull for minimum/maximum
 {
     bool bad(iterator y)
     {
