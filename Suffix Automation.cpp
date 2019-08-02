@@ -102,7 +102,7 @@ int distinctSubstring(int u)
     if(ds[u])
         return ds[u];
     ds[u] = 1;
-    for(int i=0; i<60; i++)
+    for(int i=0; i<26; i++)
     {
         if(sa[u].next[i])
         {
