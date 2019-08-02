@@ -82,3 +82,16 @@ void count_Occurrence(int root)
         cnt[sa[now].link]+=cnt[now];
     }
 }
+int search(int cur, string &s)
+{
+    count_Occurrence(cur);
+    for(int i=0;i<s.size();i++)
+    {
+        if(sa[cur].next[s[i]-'a'])
+        {
+            cur = sa[cur].next[s[i]-'a'];
+        }
+        else return 0;
+    }
+    return cnt[cur];
+}
