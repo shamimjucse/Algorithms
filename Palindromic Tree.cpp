@@ -73,6 +73,8 @@ void initTree()
     tr[2].len = 0, tr[2].link = 1;
     memset(tr[1].next,0,sizeof tr[1].next);
     memset(tr[2].next,0,sizeof tr[2].next);
+    memset(cnt,0,sizeof cnt);
+    memset(occ,0,sizeof occ);
 }
 long long totalpalindreme = 0;
 void buildTree()
@@ -137,6 +139,9 @@ void initTree()
     node = 2, suff = 2;
     len[1] = -1, link[1] = 1;
     len[2] = 0, link[2] = 1;
+    memset(tr,0,sizeof tr);
+    memset(cnt,0,sizeof cnt);
+    memset(occ,0,sizeof occ);
 }
 ll totalpalindreme = 0;
 void buildTree()
