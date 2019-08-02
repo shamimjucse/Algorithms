@@ -7,6 +7,7 @@
 **************************************************************************************/
 
 #include<bits/stdc++.h>
+#define ll long long
 using namespace std;
 
 const int mx = 100005;
@@ -25,7 +26,7 @@ inline int New()
     memset(tr[node].next, 0, sizeof tr[node].next);
     return node;
 }
-int cnt[mx];
+int cnt[mx],occ[mx];
 inline bool Insert(int pos)
 {
     int cur = suff, curlen = 0;
@@ -73,20 +74,97 @@ void initTree()
     memset(tr[1].next,0,sizeof tr[1].next);
     memset(tr[2].next,0,sizeof tr[2].next);
 }
-long long sm = 0;
+long long totalpalindreme = 0;
 void buildTree()
 {
     initTree();
     for(int i=0;i<s.size();i++)
     {
-        Insert(i);
-        sm+=cnt[suff];
+        Insert(i),occ[suff]++;
+        totalpalindreme+=cnt[suff];
     }
+}
+ll countPalindromes()
+{
+    ll sum = 0;
+    for(int i=node;i>2;i--)
+    {
+        occ[tr[i].link]+=occ[i];
+        sum+=occ[i];
+    }
+    return sum;
 }
 int main()
 {
     cin >> s;
     buildTree();
-    cout << sm << endl;
+    //cout << totalpalindreme << endl;
+    cout << countPalindromes() << endl;
     return 0;
 }
+
+/********************************************************************/
+///Simple code
+
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+const int mx = 300005;
+int tr[mx][26], node;
+int len[mx], link[mx],suff;
+string s; /// 1-indexed
+int cnt[mx],occ[mx];
+inline void Insert(int p)
+{
+    while(s[p - len[suff] - 1] != s[p])
+        suff = link[suff];
+    int x = link[suff], c = s[p] - 'a';
+    while(s[p - len[x] - 1] != s[p])
+        x = link[x];
+    if(!tr[suff][c])
+    {
+        tr[suff][c] = ++node;
+        len[node] = len[suff] + 2;
+        link[node] = (len[node] == 1) ? 2 : tr[x][c];
+        cnt[node]+=1 + cnt[link[node]];
+    }
+    suff = tr[suff][c];
+    occ[suff]++;
+}
+void initTree()
+{
+    node = 2, suff = 2;
+    len[1] = -1, link[1] = 1;
+    len[2] = 0, link[2] = 1;
+}
+ll totalpalindreme = 0;
+void buildTree()
+{
+    initTree();
+    s = "#" + s;
+    for(int i=1;i<s.size();i++)
+    {
+        Insert(i);
+        totalpalindreme+=cnt[suff];
+    }
+}
+ll countPalindromes()
+{
+    ll sum = 0;
+    for(int i=node;i>2;i--)
+    {
+        occ[link[i]]+=occ[i];
+        sum+=occ[i];
+    }
+    return sum;
+}
+int main()
+{
+    cin >> s;
+    buildTree();
+    cout << totalpalindreme << endl;
+    //cout << countPalindromes() << endl;
+    return 0;
+}
+
