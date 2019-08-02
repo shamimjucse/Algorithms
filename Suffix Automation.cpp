@@ -93,5 +93,5 @@ int search(int cur, string &s)
         }
         else return 0;
     }
-    return cnt[cur];
+    return cnt[cur]; //Number of occurrence
 }
