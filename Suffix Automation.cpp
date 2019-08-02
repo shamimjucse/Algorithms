@@ -67,7 +67,7 @@ int automata(string &s)
     return root;
 }
 
-int cnt[2*mx];
+int cnt[2*mx];//Do memset for testcase
 void count_Occurrence(int root)
 {
     vector<pair<int,int>>vc;
@@ -83,6 +83,7 @@ void count_Occurrence(int root)
         cnt[sa[now].link]+=cnt[now];
     }
 }
+
 int search(int cur, string &s)
 {
     //count_Occurrence(cur);//call this function in main()
@@ -96,18 +97,56 @@ int search(int cur, string &s)
     }
     return cnt[cur]; //Number of occurrence
 }
+
+///Distinct substring: ds[v] = 1 + ∑ ds[w]
 int ds[2*mx];//Do memset for testcase
-int distinctSubstring(int u)
+int distSub(int u)
 {
-    if(ds[u])
-        return ds[u];
+    if(ds[u])return ds[u];
     ds[u] = 1;
     for(int i=0; i<26; i++)
     {
         if(sa[u].next[i])
         {
-            ds[u]+=distinctSubstring(sa[u].next[i]);
+            ds[u]+=distSub(sa[u].next[i]);
         }
     }
-    return ds[u];
+    return ds[u];//With empty string
+}
+
+///Sum of length of all Distinct substring: dp[v] = ∑ ds[w] + dp[w]
+///Depends on: call distSub(root) to precal ds[]
+int dp[2*mx];//Do memset for testcase
+int lenSum(int u)
+{
+    if(dp[u])return dp[u];
+    for(int i=0; i<26; i++)
+    {
+        if(sa[u].next[i])
+        {
+            dp[u]+=ds[sa[u].next[i]]+lenSum(sa[u].next[i]);
+        }
+    }
+    return dp[u];
+}
+
+///Find a pattern with at most K mismatch:
+string s; //Global string
+int dfs(int u, int i, int k) //dfs(curRoot, curPos, remainingMismatch)
+{
+    if(u==0)return 0;
+    if(i==s.size())return cnt[u];
+    int c = s[i]-'a';
+    int res = dfs(sa[u].next[c], i+1, k);
+    if(k!=0)
+    {
+        for(int j=0;j<16;j++)
+        {
+            if(j!=c)
+            {
+                res+=dfs(sa[u].next[j], i+1, 0);
+            }
+        }
+    }
+    return res;
 }
