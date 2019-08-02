@@ -84,7 +84,7 @@ void count_Occurrence(int root)
 }
 int search(int cur, string &s)
 {
-    count_Occurrence(cur);
+    //count_Occurrence(cur);//call this function in main()
     for(int i=0;i<s.size();i++)
     {
         if(sa[cur].next[s[i]-'a'])
