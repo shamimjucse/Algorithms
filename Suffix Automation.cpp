@@ -158,6 +158,49 @@ string LCS(string S, string T)
     return T.substr(pos-best+1,best);
 }
 
+///Longest Common Substring of Multiple Strings
+string LCS(vector<string>st)
+{
+    int n = st.size()-1;
+    vector<int> root(n);
+    for(int i=0; i<n; i++)
+        root[i] = automata(st[i]);
+
+    string T = st[n];
+    vector<int>cur = root;
+    int l = 0, best = 0, pos = 0;
+    for(int i=0; i<T.size(); i++)
+    {
+        int c = T[i]-'a';///Check it
+        for(int k=0; k<n; k++)
+        {
+            while(cur[k]!=root[k] && sa[cur[k]].next[c]==0)
+            {
+                cur[k] = sa[cur[k]].link;
+                l = min(l, sa[cur[k]].len);
+            }
+
+        }
+        bool flg = 1;
+        for(int k=0; k<n; k++)
+            if(sa[cur[k]].next[c]==0)
+                flg = 0;
+        if(flg)
+        {
+            for(int k=0; k<n; k++)
+                cur[k] = sa[cur[k]].next[c];
+            l++;
+        }
+        if(l>best)
+        {
+            best = l;
+            pos = i;
+        }
+    }
+    //return best; //Length
+    return T.substr(pos-best+1,best);
+}
+
 ///Find a pattern with at most K mismatch:
 string s; //Global string
 int dfs(int u, int i, int k) //dfs(curRoot, curPos, remainingMismatch)
