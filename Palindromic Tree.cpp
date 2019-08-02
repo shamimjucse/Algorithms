@@ -29,14 +29,14 @@ inline bool Insert(int pos)
 {
     int cur = suff, curlen = 0;
     int c = s[pos]-'a'; ///check it
-    while(true)
+    while(true) ///Finding maximum length palindromic suffix
     {
         curlen = tr[cur].len;
         if (pos-1-curlen>=0 && s[pos-1-curlen]==s[pos])
             break;
         cur = tr[cur].link;
     }
-    if(tr[cur].next[c])
+    if(tr[cur].next[c]) ///Existing node
     {
         suff = tr[cur].next[c];
         return false;
@@ -45,13 +45,13 @@ inline bool Insert(int pos)
     suff = New();
     tr[node].len = tr[cur].len + 2;
     tr[cur].next[c] = node;
-    if(tr[node].len == 1)
+    if(tr[node].len == 1) ///Single character, connected with root
     {
         tr[node].link = 2;
         cnt[node] = 1;
         return true;
     }
-    while(true)
+    while(true)///Finding suffix link
     {
         cur = tr[cur].link;
         curlen = tr[cur].len;
