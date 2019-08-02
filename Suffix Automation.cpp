@@ -130,6 +130,34 @@ int lenSum(int u)
     return dp[u];
 }
 
+///Longest common substring of two strings
+string LCS(string S, string T)
+{
+    int root = automata(S);
+    int cur = root, l = 0, best = 0, pos = 0;
+    for(int i=0;i<T.size();i++)
+    {
+        int c = T[i]-'a';///Check it
+        while(cur!=root && sa[cur].next[c]==0)
+        {
+            cur = sa[cur].link;
+            l = sa[cur].len;
+        }
+        if(sa[cur].next[c])
+        {
+            cur = sa[cur].next[c];
+            l++;
+        }
+        if(l>best)
+        {
+            best = l;
+            pos = i;
+        }
+    }
+    //return best; //Length
+    return T.substr(pos-best+1,best);
+}
+
 ///Find a pattern with at most K mismatch:
 string s; //Global string
 int dfs(int u, int i, int k) //dfs(curRoot, curPos, remainingMismatch)
