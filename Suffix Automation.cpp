@@ -57,6 +57,7 @@ inline void Insert(int root, char ch)
 }
 int automata(string &s)
 {
+    //avl = 0; //For testcase
     int root = New();
     last = root;
     for(int i=0;i<s.size();i++)
@@ -94,4 +95,19 @@ int search(int cur, string &s)
         else return 0;
     }
     return cnt[cur]; //Number of occurrence
+}
+int ds[2*mx];//Do memset for testcase
+int distinctSubstring(int u)
+{
+    if(ds[u])
+        return ds[u];
+    ds[u] = 1;
+    for(int i=0; i<60; i++)
+    {
+        if(sa[u].next[i])
+        {
+            ds[u]+=distinctSubstring(sa[u].next[i]);
+        }
+    }
+    return ds[u];
 }
