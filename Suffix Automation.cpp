@@ -151,6 +151,34 @@ void klex(int cur, int k)
     }
 }
 
+///Smallest non-appearing substring :
+int d[mx];
+int dfs(int u)
+{
+    if(u==0)return u;
+    if(d[u])return d[u];
+    d[u] = 26; //change it
+    for(int i=0;i<3;i++)
+    {
+        d[u] = min(d[u], 1+dfs(sa[u].next[i]));
+    }
+    return d[u];
+}
+string out;
+void print(int u)
+{
+    if(u==0)return;
+    for(int i=0;i<3;i++)
+    {
+        if(d[u] == 1 + dfs(sa[u].next[i]))
+        {
+            out.push_back(i+'a');
+            print(sa[u].next[i]);
+            return;
+        }
+    }
+}
+
 ///Longest common substring of two strings
 string LCS(string S, string T)
 {
