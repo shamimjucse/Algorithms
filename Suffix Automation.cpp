@@ -9,6 +9,7 @@ struct node
 
 int last,avl;
 node sa[2*mx];
+//int pos[2*mx];
 inline int New()
 {
     avl++;
@@ -42,6 +43,7 @@ inline void Insert(int root, char ch)
         else
         {
             int clone = New();
+            //pos[clone] = pos[q];
             sa[clone].len = sa[p].len + 1;
             sa[clone].link = sa[q].link;
             memcpy(sa[clone].next,sa[q].next,sizeof(sa[clone].next));
@@ -63,6 +65,7 @@ int automata(string &s)
     for(int i=0;i<s.size();i++)
     {
         Insert(root, s[i]);
+        //pos[last] = i;
     }
     return root;
 }
@@ -269,4 +272,27 @@ int dfs(int u, int i, int k) //dfs(curRoot, curPos, remainingMismatch)
         }
     }
     return res;
+}
+
+///Smallest cyclic shift:
+///first element go to the last position, abc->bca
+int minshift(int cur, int l, int length)
+{
+    for(int i=0;i<26;i++)
+    {
+        if(sa[cur].next[i])
+        {
+            if(l+1==length)
+            {
+                return pos[cur];
+            }
+            return minshift(sa[cur].next[i],l+1,length);
+        }
+    }
+}
+int minshift(string s)
+{
+    int root = automata(s+s);//int automata(string s)
+    int l = s.size();
+    return minshift(root,0,l)-l+2;
 }
