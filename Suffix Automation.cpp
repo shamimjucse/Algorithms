@@ -130,6 +130,27 @@ int lenSum(int u)
     return dp[u];
 }
 
+///Lexicographically k-th Substring Search:
+///Depends on: call distSub(root) to precal ds[]
+string ans;//do ( ans.clear() ) for each call
+void klex(int cur, int k)
+{
+    for(int i=0; i<26; i++)
+    {
+        if(sa[cur].next[i] && k)
+        {
+            int path = ds[sa[cur].next[i]];
+            if(path >= k)
+            {
+                ans.push_back(i+'a');
+                klex(sa[cur].next[i], k-1);
+                break;
+            }
+            else k-=path;
+        }
+    }
+}
+
 ///Longest common substring of two strings
 string LCS(string S, string T)
 {
