@@ -1,3 +1,19 @@
+/*****************************************************************
+ * Algorithm  : Suffix Automation
+ * Author     : Md Shamim Imtiaz (shamimjucse)
+ * Memory     : O(2*n)
+ * Complexity : O(nlogk), k is char size
+ * Cover Area : Build Suffix Automation, Count Occurrence,
+                String Matching, Distinct Substring,
+                Sum of length of all Distinct substring,
+                Smallest non-appearing substring,
+                Longest common substring of two strings,
+                Longest Common Substring of Multiple Strings,
+                Find pattern with at most K mismatch,
+                Smallest cyclic shift, Position of all occurrence
+ * Problem    : SPOJ - LCS,NSUBSTR,LCS2,SUBLEX   HDU - 4622,4641
+ *****************************************************************/
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -9,7 +25,7 @@ struct node
 
 int last,avl;
 node sa[2*mx];
-//int pos[2*mx];
+//int pos[2*mx];//problem specific
 inline int New()
 {
     avl++;
@@ -43,7 +59,7 @@ inline void Insert(int root, char ch)
         else
         {
             int clone = New();
-            //pos[clone] = pos[q];
+            //pos[clone] = pos[q];//problem specific
             sa[clone].len = sa[p].len + 1;
             sa[clone].link = sa[q].link;
             memcpy(sa[clone].next,sa[q].next,sizeof(sa[clone].next));
@@ -65,11 +81,13 @@ int automata(string &s)
     for(int i=0;i<s.size();i++)
     {
         Insert(root, s[i]);
-        //pos[last] = i;
+        //pos[last] = i;//problem specific
     }
     return root;
 }
+/********************************************/
 
+///Number of substring end this position
 int cnt[2*mx];//Do memset for testcase
 void count_Occurrence(int root)
 {
@@ -86,7 +104,9 @@ void count_Occurrence(int root)
         cnt[sa[now].link]+=cnt[now];
     }
 }
+/********************************************/
 
+///String Matching
 int search(int cur, string &s)
 {
     //count_Occurrence(cur);//call this function in main()
@@ -100,8 +120,9 @@ int search(int cur, string &s)
     }
     return cnt[cur]; //Number of occurrence
 }
+/********************************************/
 
-///Distinct substring: ds[v] = 1 + ∑ ds[w]
+///Distinct Substring: ds[v] = 1 + ∑ ds[w]
 int ds[2*mx];//Do memset for testcase
 int distSub(int u)
 {
@@ -116,6 +137,8 @@ int distSub(int u)
     }
     return ds[u];//With empty string
 }
+
+/********************************************/
 
 ///Sum of length of all Distinct substring: dp[v] = ∑ ds[w] + dp[w]
 ///Depends on: call distSub(root) to precal ds[]
@@ -132,6 +155,7 @@ int lenSum(int u)
     }
     return dp[u];
 }
+/********************************************/
 
 ///Lexicographically k-th Substring Search:
 ///Depends on: call distSub(root) to precal ds[]
@@ -153,6 +177,7 @@ void klex(int cur, int k)
         }
     }
 }
+/********************************************/
 
 ///Smallest non-appearing substring :
 int d[mx];
@@ -181,6 +206,7 @@ void print(int u)
         }
     }
 }
+/********************************************/
 
 ///Longest common substring of two strings
 string LCS(string S, string T)
@@ -209,6 +235,7 @@ string LCS(string S, string T)
     //return best; //Length
     return T.substr(pos-best+1,best);
 }
+/********************************************/
 
 ///Longest Common Substring of Multiple Strings
 string LCS(vector<string>st)
@@ -252,6 +279,7 @@ string LCS(vector<string>st)
     //return best; //Length
     return T.substr(pos-best+1,best);
 }
+/********************************************/
 
 ///Find a pattern with at most K mismatch:
 string s; //Global string
@@ -273,6 +301,7 @@ int dfs(int u, int i, int k) //dfs(curRoot, curPos, remainingMismatch)
     }
     return res;
 }
+/********************************************/
 
 ///Smallest cyclic shift:
 ///first element go to the last position, abc->bca
@@ -296,3 +325,31 @@ int minshift(string s)
     int l = s.size();
     return minshift(root,0,l)-l+2;
 }
+/********************************************/
+
+///Position of all occurrence of the query string
+vector<int>vec[2*mx],occur;
+void makeTree(int root)
+{
+    for(int i=root; i<=avl; i++)
+        vec[sa[i].link].push_back(i);
+}
+void find_all_occurrence(int cur, int l)
+{
+    if(sa[cur].real)
+        occur.push_back(pos[cur]-l+1);
+    for(auto u : vec[cur])
+        find_all_occurrence(u,l);
+}
+void firstOccurrence(int cur, string T)
+{
+    makeTree(cur);
+    for(int i=0; i<T.size(); i++)
+    {
+        int c = T[i]-'a'; //check it
+        if(!sa[cur].next[c])return;//not exists
+        cur = sa[cur].next[c];
+    }
+    find_all_occurrence(cur,T.size());
+}
+/********************************************/
