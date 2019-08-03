@@ -158,7 +158,7 @@ int dfs(int u)
     if(u==0)return u;
     if(d[u])return d[u];
     d[u] = 26; //change it
-    for(int i=0;i<3;i++)
+    for(int i=0;i<26;i++)
     {
         d[u] = min(d[u], 1+dfs(sa[u].next[i]));
     }
@@ -168,7 +168,7 @@ string out;
 void print(int u)
 {
     if(u==0)return;
-    for(int i=0;i<3;i++)
+    for(int i=0;i<26;i++)
     {
         if(d[u] == 1 + dfs(sa[u].next[i]))
         {
