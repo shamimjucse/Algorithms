@@ -10,7 +10,7 @@ struct edge
     int x,y,f,c;
 };
 vector<edge> e;
-vector<int> adj[mx];
+vector<int> adj[mx]; //clear it
 int src,snk,ptr[mx],dis[mx];
 inline void addEdge(int u, int v, int c)
 {
