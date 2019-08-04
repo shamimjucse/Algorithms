@@ -1,26 +1,23 @@
-///Light oj - 1153 solution
+/// Light OJ - 1153
 #include<bits/stdc++.h>
 #define ll long long
 using namespace std;
-const int MX = 100;
-const int INF = 5005;
+const int mx = 102;
+const int INF = 1e9;
 
 struct edge
 {
     int x,y,f,c;
 };
 vector<edge> e;
-vector<int> adj[MX+2];
-int src,snk,ptr[MX+2],dis[MX+2];
-void addEdge(int p, int q, int c)
+vector<int> adj[mx];
+int src,snk,ptr[mx],dis[mx];
+inline void addEdge(int u, int v, int c)
 {
     edge ed;
-    ed = {p,q,0,c};
-    adj[p].push_back(e.size());
-    e.push_back(ed);
-    ed = {q,p,0,c};
-    adj[q].push_back(e.size());
-    e.push_back(ed);
+    ed = {u,v,0,c}; adj[u].push_back(e.size()); e.push_back(ed);
+    ed = {v,u,0,c}; adj[v].push_back(e.size()); e.push_back(ed); //for bidirectional
+    /// ed = {v,u,0,0}; adj[v].push_back(e.size()); e.push_back(ed); //for one directional
 }
 bool bfs()
 {
@@ -39,7 +36,7 @@ bool bfs()
             }
         }
     }
-    return ~dis[snk];
+    return dis[snk]!=-1;
 }
 int dfs(int u, int flow)
 {
