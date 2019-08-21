@@ -16,6 +16,7 @@ void precall_NCR()
 }
 /******************************/
 ll dp[1005][1005];
+memset(dp,-1,sizeof dp);
 ll nCk(int n, int k)
 {
     if(k==0) return 1;
