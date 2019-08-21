@@ -15,6 +15,18 @@ void precall_NCR()
     }
 }
 /******************************/
+ll dp[1005][1005];
+ll nCk(int n, int k)
+{
+    if(k==0) return 1;
+    if(k==1) return n;
+    if(n==k) return 1;
+
+    if(dp[n][k]!=-1) return dp[n][k];
+
+    return dp[n][k]= (nCk(n-1,k-1)+nCk(n-1,k))%mod;
+}
+/******************************/
 ll NCR(ll n, ll r)
 {
     if(n<0)return 0;
