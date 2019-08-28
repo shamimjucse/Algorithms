@@ -1,44 +1,44 @@
 ///Light OJ - 1427(Substring Frequency (II))
 #include<bits/stdc++.h>
-#define MX 250002
+#define mx 250002
 using namespace std;
-int indx,len,tree[MX][26];
-int val[MX],ed[MX],suffix[MX],path[MX];
+int tr[mx][26],suffix[mx],node,len;
+int val[mx],ed[mx],path[mx];
 void init()
 {
-    indx=0, len=0;
-    memset(tree[0],-1,sizeof tree[0]);
+    node=0, len=0;
+    memset(tr[0],-1,sizeof tr[0]);
     memset(suffix,0,sizeof suffix);
     memset(val,0,sizeof val);
 }
 inline int New()
 {
-    indx++;
-    memset(tree[indx],-1,sizeof tree[indx]);
-    return indx;
+    node++;
+    memset(tr[node],-1,sizeof tr[node]);
+    return node;
 }
 inline void insert(string s, int pos)
 {
-    int now = 0;
+    int cur = 0;
     for(int i=0; i<s.size(); i++)
     {
-        int id = s[i]-'a';
-        if(tree[now][id]==-1)
-            tree[now][id]=New();
-        now = tree[now][id];
+        int c = s[i]-'a';
+        if(tr[cur][c]==-1)
+            tr[cur][c]=New();
+        cur = tr[cur][c];
     }
-    ed[pos]=now;
+    ed[pos]=cur;
 }
 void reverse_link()
 {
     queue<int>qu;
     for(int i=0; i<26; i++)
     {
-        if(tree[0][i]!=-1)
+        if(tr[0][i]!=-1)
         {
-            qu.push(tree[0][i]);
+            qu.push(tr[0][i]);
         }
-        else tree[0][i]=0;
+        else tr[0][i]=0;
     }
     while(!qu.empty())
     {
@@ -46,27 +46,48 @@ void reverse_link()
         qu.pop();
         for(int i=0;i<26;i++)
         {
-            int v = tree[u][i];
+            int v = tr[u][i];
             if(v==-1)
             {
-                tree[u][i]=tree[suffix[u]][i];
+                tr[u][i]=tr[suffix[u]][i];
                 continue;
             }
-            suffix[v]=tree[suffix[u]][i];
+            suffix[v]=tr[suffix[u]][i];
             qu.push(v);
             path[++len]=v;
         }
     }
 }
+//Make tree with reverse suffix link
+vector<int>rtr[mx];
+void makeTree()
+{
+    for(int i=0;i<=node;i++)rtr[i].clear();
+    for(int i=1;i<=node;i++)
+    {
+        rtr[suffix[i]].push_back(i);
+    }
+}
+//calculate occurrence of every state for string s
+int dfs(int u)
+{
+    for(auto v : rtr[u])
+    {
+        val[u]+=dfs(v);
+    }
+    return val[u];
+}
 void search(string s)
 {
-    int now = 0;
+    int cur = 0;
     for(int i=0;i<s.size();i++)
     {
-        int id = s[i]-'a';
-        now = tree[now][id];
-        val[now]++;
+        int c = s[i]-'a';
+        cur = tr[cur][c];
+        val[cur]++;
     }
+    //makeTree();
+    //dfs(0);
     for(int i=len;i>=1;i--)
     {
         val[suffix[path[i]]]+=val[path[i]];
@@ -97,3 +118,4 @@ int main()
     }
     return 0;
 }
+
