@@ -4,6 +4,7 @@
 using namespace std;
 int tr[mx][26],suffix[mx],node,len;
 int val[mx],ed[mx],path[mx];
+int End[mx],sf[mx];
 void init()
 {
     node=0, len=0;
@@ -28,6 +29,7 @@ inline void insert(string s, int pos)
         cur = tr[cur][c];
     }
     ed[pos]=cur;
+    End[cur] = pos;
 }
 void reverse_link()
 {
@@ -53,6 +55,10 @@ void reverse_link()
                 continue;
             }
             suffix[v]=tr[suffix[u]][i];
+            
+            if(End[suffix[v]]) sf[v] = suffix[v];//sf[v] = some node where end a string
+            else               sf[v] = sf[suffix[v]];
+            
             qu.push(v);
             path[++len]=v;
         }
