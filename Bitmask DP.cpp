@@ -39,3 +39,50 @@ int main()
     return 0;
 }
 
+/*-----------------------------------------------------------------------*/
+///Light oj - 1264
+#include<bits/stdc++.h>
+using namespace std;
+
+int a[14][14],cst[(1<<14)+5];
+int main()
+{
+    int tc,t=1; cin >> tc;
+    while(tc--)
+    {
+        int n; cin >> n;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                cin >> a[i][j];
+            }
+        }
+        for(int mask=0;mask<(1<<n);mask++)
+        {
+            cst[mask] = 0;
+            for(int i=0;i<n;i++)
+            {
+                if(mask&(1<<i))
+                {
+                    for(int j=0;j<n;j++)
+                    {
+                        if(mask&(1<<j))
+                        {
+                            cst[mask]+=a[i][j];
+                        }
+                    }
+                }
+            }
+        }
+        for(int mask=0;mask<(1<<n);mask++)
+        {
+            for(int sub=mask;sub>0;sub=mask&(sub-1))
+            {
+                cst[mask] = min(cst[mask], cst[sub]+cst[mask^sub]);
+            }
+        }
+        cout << "Case " << t++ << ": " << cst[(1<<n)-1] << "\n";
+    }
+    return 0;
+}
