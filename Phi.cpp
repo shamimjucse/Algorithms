@@ -1,16 +1,20 @@
-ll phi[mx];
-void computeTotientPhi(int N)
+#include<bits/stdc++.h>
+using namespace std;
+
+const int maxn = 1000'005;
+
+int phi[maxn];
+void computeTotientPhi(int n = 1000'000)
 {
-    phi[1] = 1 ;
-    for(int i=2; i<=N; i++)
+    phi[1] = 1;
+    for(int i=2; i<=n; i++)
     {
         if(phi[i]==0)
         {
             phi[i] = i-1 ;
-            for(int j=i+i; j<=N; j+=i)
+            for(int j=i+i; j<=n; j+=i)
             {
-                if(phi[j]==0)
-                    phi[j] = j ;
+                if(phi[j]==0)phi[j] = j;
                 phi[j] = phi[j] - phi[j]/i ;
             }
         }
@@ -18,20 +22,64 @@ void computeTotientPhi(int N)
 }
 
 /******************************/
-for(int i=0; i<=MX; i++)
-    phi[i]=i;
-for(int i=2; i<=MX; i++)
+bool vis[maxn];
+void calculatePhi(int n = 1000'000)
 {
-    if(not v[i])
+    for(int i=0; i<=n; i++)phi[i] = i;
+    for(int i=2; i<=n; i++)
     {
-        for(int j=i; j<=MX; j+=i)
+        if(not vis[i])
         {
-            v[j]=1;
-            phi[j]-=phi[j]/i;
+            for(int j=i; j<=n; j+=i)
+            {
+                vis[j] = 1;
+                phi[j]-=phi[j]/i;
+            }
         }
     }
 }
 /******************************/
+vector<int>prime;
+bool is_composite[maxn];
+void eulerPhi(int n = 1000'000)
+{
+    phi[1] = 1;
+    for(int i=2; i<=n; i++)
+    {
+        if(!is_composite[i])
+        {
+            prime.push_back(i);
+            phi[i] = i-1; ///i is prime
+        }
+        for(int j=0; j<prime.size() && i*prime[j]<=n; j++)
+        {
+            is_composite[i*prime[j]] = 1;
+            if(i%prime[j] == 0)
+            {
+                phi[i*prime[j]] = phi[i] * prime[j]; ///prime[j] divides i
+                break;
+            }
+            else
+            {
+                phi[i*prime[j]] = phi[i] * phi[prime[j]]; ///prime[j] does not divide i
+            }
+        }
+    }
+}
+/*******************************/
+
+int main()
+{
+    computeTotientPhi();
+    //calculatePhi();
+    //eulerPhi();
+
+    for(int i=1;i<=100;i++)
+    {
+        cout << i << " = " << phi[i] << endl;
+    }
+}
+
 
 /*
 Few properties of phi function :
