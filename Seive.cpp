@@ -61,3 +61,57 @@ int main()
     }
     return 0;
 }
+
+/********************************************************/
+
+/**
+    Linear Sieve / Sieve of Eratosthenes
+    Complexity: O(n)
+*/
+#include<bits/stdc++.h>
+using namespace std;
+
+const int maxn = 1000'005;
+vector<int>prime;
+bool is_composite[maxn];
+
+void sieve(int n = 1000'000)
+{
+    for(int i=2; i<=n; i++)
+    {
+        if(!is_composite[i])
+            prime.push_back(i);
+        for(int j=0; j<prime.size() && i*prime[j]<=n; j++)
+        {
+            is_composite[i*prime[j]] = 1;
+            if(i%prime[j] == 0)
+                break;
+        }
+    }
+}
+
+int lp[maxn];
+vector<int> pr;
+void sieve2(int n = 1000'000)
+{
+    for (int i=2; i<=n; ++i)
+    {
+        if (lp[i] == 0)
+        {
+            lp[i] = i;
+            pr.push_back (i);
+        }
+        for (int j=0; j<(int)pr.size() && pr[j]<=lp[i] && i*pr[j]<=n; ++j)
+        {
+            lp[i * pr[j]] = pr[j];
+        }
+    }
+}
+int main()
+{
+    sieve();
+    cout << prime.size() << endl; /// 78498
+    sieve2();
+    cout << pr.size() << endl;
+    return 0;
+}
